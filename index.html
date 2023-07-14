@@ -13,7 +13,7 @@
       <li class="comment">
         <div class="comment-header">
           <div>Глеб Фокин</div>
-          <div>12.02.22 12:18</div>
+          <div>12.02.2022 12:18</div>
         </div>
         <div class="comment-body">
           <div class="comment-text">
@@ -30,7 +30,7 @@
       <li class="comment">
         <div class="comment-header">
           <div>Варвара Н.</div>
-          <div>13.02.22 19:22</div>
+          <div>13.02.2022 19:22</div>
         </div>
         <div class="comment-body">
           <div class="comment-text">
@@ -59,14 +59,10 @@
 <script>
   "use strict";
   // Код писать здесь
-  let date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth();
-  let day = date.getDay();
+  let date = new Date().toLocaleDateString();
+  let time = new Date().toLocaleTimeString().slice(0,-3);
+  let currentDate = (date + ' ' + time);
 
-  let hour = date.getHours();
-  let minutes = date.getMinutes()
-  let currentDate = (day + '.' + month + '.' + year + ' ' + hour + ':' + minutes)
 
   const buttonElement = document.getElementById("add-button");
   const listElement = document.getElementById("list");
@@ -89,7 +85,7 @@
       `<li class="comment">
         <div class="comment-header">
           <div>${nameInputElement.value}</div>
-          <div>${date.toLocaleString("ru", year) + " " + date.toLocaleString("ru", time)}</div>
+          <div>${currentDate}</div>
         </div>
         <div class="comment-body">
           <div class="comment-text">
