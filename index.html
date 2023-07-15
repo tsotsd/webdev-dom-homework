@@ -10,7 +10,7 @@
 <body>
   <div class="container">
     <ul id="list" class="comments">
-      
+      <!-- Список рендерится из JS -->
     </ul>
     <div class="add-form">
       <input type="text" id="name-input" class="add-form-name" placeholder="Введите ваше имя" />
@@ -26,20 +26,16 @@
 <script>
   "use strict";
   // Код писать здесь
-
-
-    
   let date = new Date().toLocaleDateString();
-  let time = new Date().toLocaleTimeString().slice(0,-3);
+  let time = new Date().toLocaleTimeString().slice(0, -3);
   let currentDate = (date + ' ' + time);
-
 
   const buttonElement = document.getElementById("add-button");
   const listElement = document.getElementById("list");
   const nameInputElement = document.getElementById("name-input");
   const commentInputElement = document.getElementById("comment-textarea");
 
-  const commentList = [
+  const commentLists = [
     {
       name: "Глеб Фокин",
       date: "12.02.2022 12:18",
@@ -54,17 +50,45 @@
     },
   ];
 
-  const initDeleteButtonsListeners = () => {
-      const deleteButtonElements = document.querySelectorAll(".delete-button")
-      for (const deleteButtonElement of deleteButtonElements) {
-        deleteButtonElement.addEventListener('click', () => {
-          console.log('Удаляю элемент.');
-          console.log(listElement.innerHTML);
-        });
-      };
-    };
-
+  const renderCommentLists = () => {
+    const commentHtml = commentLists.map((commentList) => {
+      return `<li class="comment">
+        <div class="comment-header">
+          <div>${commentList.name}</div>
+          <div>${commentList.date}</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            ${commentList.comment} 
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">${commentList.like}</span>
+            <button class="like-button -active-like"></button>
+          </div>
+        </div>
+        <button class="delete-button">Удалить</button>
+      </li>`;
+    }).join('');
+    listElement.innerHTML = commentHtml;
     initDeleteButtonsListeners();
+    
+  };
+
+  
+
+  const initDeleteButtonsListeners = () => {
+    const deleteButtonElements = document.querySelectorAll(".delete-button")
+    for (const deleteButtonElement of deleteButtonElements) {
+      deleteButtonElement.addEventListener('click', () => {
+        console.log('Удаляю элемент.');
+        console.log(listElement.innerHTML);
+      });
+    };
+  };
+  renderCommentLists();
+  
 
   buttonElement.addEventListener('click', () => {
     nameInputElement.classList.remove('error');
@@ -77,29 +101,15 @@
       return;
     }
 
+    commentLists.push({
+      name: nameInputElement.value,
+      date: currentDate,
+      comment: commentInputElement.value,
+      like: 0,
+    });
 
-
-    const oldListElement = listElement.innerHTML;
-    listElement.innerHTML = oldListElement +
-      `<li class="comment">
-        <div class="comment-header">
-          <div>${nameInputElement.value}</div>
-          <div>${currentDate}</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            ${commentInputElement.value} 
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">0</span>
-            <button class="like-button -active-like"></button>
-          </div>
-        </div>
-        <button class="delete-button">Удалить</button>
-      </li>`;
-      initDeleteButtonsListeners();
+    renderCommentLists();
+  
   });
 
 
