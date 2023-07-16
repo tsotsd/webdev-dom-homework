@@ -50,8 +50,38 @@
     },
   ];
 
+  const initDeleteButtonsListeners = () => {
+    const deleteButtonElements = document.querySelectorAll(".delete-button")
+    for (const deleteButtonElement of deleteButtonElements) {
+      deleteButtonElement.addEventListener('click', () => {
+        // console.log('Удаляю элемент.');
+        const index = deleteButtonElement.dataset.index;
+        console.log(index);
+        commentLists.splice(index, 1);
+        renderCommentLists();
+      });
+    };
+  };
+
+
+  const calcLikes = () => {
+    const addDelLikes = document.querySelectorAll(".like-button")
+    for (const addDelLike of addDelLikes) {
+      addDelLike.addEventListener('click', ({ target: t }) => {
+        console.log('Добавляю или Удаляю like.');
+        if (t.classList.contains('like-button')) {
+          const index = [...document.querySelectorAll('.like-button')].indexOf(t);
+          const count = document.querySelectorAll('.like-button')[index];
+          count.classList.toggle('-active-like');
+          commentLists.like += 1;
+        }
+      });
+    };
+  };
+
+
   const renderCommentLists = () => {
-    const commentHtml = commentLists.map((commentList) => {
+    const commentHtml = commentLists.map((commentList, index) => {
       return `<li class="comment">
         <div class="comment-header">
           <div>${commentList.name}</div>
@@ -65,30 +95,18 @@
         <div class="comment-footer">
           <div class="likes">
             <span class="likes-counter">${commentList.like}</span>
-            <button class="like-button -active-like"></button>
+            <button class="like-button"></button>
           </div>
         </div>
-        <button class="delete-button">Удалить</button>
+        <button data-index="${index}" class="delete-button add-form-button">Удалить</button>
       </li>`;
     }).join('');
     listElement.innerHTML = commentHtml;
     initDeleteButtonsListeners();
-    
+    calcLikes();
   };
 
-  
-
-  const initDeleteButtonsListeners = () => {
-    const deleteButtonElements = document.querySelectorAll(".delete-button")
-    for (const deleteButtonElement of deleteButtonElements) {
-      deleteButtonElement.addEventListener('click', () => {
-        console.log('Удаляю элемент.');
-        console.log(listElement.innerHTML);
-      });
-    };
-  };
   renderCommentLists();
-  
 
   buttonElement.addEventListener('click', () => {
     nameInputElement.classList.remove('error');
@@ -109,10 +127,8 @@
     });
 
     renderCommentLists();
-  
+
   });
-
-
 
 </script>
 
