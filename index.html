@@ -10,40 +10,7 @@
 <body>
   <div class="container">
     <ul id="list" class="comments">
-      <li class="comment">
-        <div class="comment-header">
-          <div>Глеб Фокин</div>
-          <div>12.02.2022 12:18</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            Это будет первый комментарий на этой странице
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">3</span>
-            <button class="like-button"></button>
-          </div>
-        </div>
-      </li>
-      <li class="comment">
-        <div class="comment-header">
-          <div>Варвара Н.</div>
-          <div>13.02.2022 19:22</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            Мне нравится как оформлена эта страница! ❤
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">75</span>
-            <button class="like-button -active-like"></button>
-          </div>
-        </div>
-      </li>
+      <!-- Список рендерится из JS -->
     </ul>
     <div class="add-form">
       <input type="text" id="name-input" class="add-form-name" placeholder="Введите ваше имя" />
@@ -60,14 +27,98 @@
   "use strict";
   // Код писать здесь
   let date = new Date().toLocaleDateString();
-  let time = new Date().toLocaleTimeString().slice(0,-3);
+  let time = new Date().toLocaleTimeString().slice(0, -3);
   let currentDate = (date + ' ' + time);
-
 
   const buttonElement = document.getElementById("add-button");
   const listElement = document.getElementById("list");
   const nameInputElement = document.getElementById("name-input");
   const commentInputElement = document.getElementById("comment-textarea");
+
+  const comments = [
+    {
+       name: 'Глеб Фокин',
+        text: 'Это будет первый комментарий на этой странице',
+        date: '12.02.22 12:18',
+        clickOn: false,
+        likes: 3,
+        isEdit: false,
+       
+		    
+    },
+    {
+        name: 'Варвара Н.',
+        text: 'Мне нравится как оформлена эта страница! ❤',
+        date: '13.02.22 19:22',
+        clickOn: false,
+        likes: 75,
+		    isEdit: false,
+    }
+    
+];
+
+   
+const eventeLikesButtons = () => {
+    const likesButtons = document.querySelectorAll('.like-button')
+	for (const likesButton of likesButtons){
+      const index =  likesButton.dataset.index;
+	  likesButton.addEventListener('click', () => {
+           if (!comments[index].clickOn) {
+                comments[index].clickOn = true;
+                comments[index].active ='-active-like'; 
+                comments[index].likes += 1;
+
+            } else {
+                comments[index].clickOn = false;
+                comments[index].active =''; 
+                comments[index].likes -= 1;
+
+            }
+            renderComment();
+          })
+        }
+      }
+
+  const initDeleteButtonsListeners = () => {
+    const deleteButtonElements = document.querySelectorAll(".delete-button")
+    for (const deleteButtonElement of deleteButtonElements) {
+      deleteButtonElement.addEventListener('click', () => {
+        console.log('Удаляю элемент.');
+        const index = deleteButtonElement.dataset.index;
+        console.log(index);
+        comments.splice(index, 1);
+        renderComment();
+      });
+    };
+  };
+
+  const renderComment = () => {
+    const commentHtml = comments.map((comments, index) => {
+      return `<li class="comment">
+        <div class="comment-header">
+          <div>${comments.name}</div>
+          <div>${comments.date}</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            ${comments.text} 
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">${comments.likes}</span>
+            <button data-index="${index}" class="like-button ${comments.active}"></button>
+          </div>
+        </div>
+        <button data-index="${index}" class="delete-button add-form-button">Удалить</button>
+      </li>`;
+    }).join('');
+    listElement.innerHTML = commentHtml;
+    initDeleteButtonsListeners();
+    eventeLikesButtons();
+  };
+
+  renderComment();
 
   buttonElement.addEventListener('click', () => {
     nameInputElement.classList.remove('error');
@@ -80,26 +131,20 @@
       return;
     }
 
-    const oldListElement = listElement.innerHTML;
-    listElement.innerHTML = oldListElement +
-      `<li class="comment">
-        <div class="comment-header">
-          <div>${nameInputElement.value}</div>
-          <div>${currentDate}</div>
-        </div>
-        <div class="comment-body">
-          <div class="comment-text">
-            ${commentInputElement.value} 
-          </div>
-        </div>
-        <div class="comment-footer">
-          <div class="likes">
-            <span class="likes-counter">0</span>
-            <button class="like-button -active-like"></button>
-          </div>
-        </div>
-      </li>`
-  })
+    comments.push({
+      name: nameInputElement.value,
+      date: currentDate,
+      text: commentInputElement.value,
+      likes: 0,
+      isEdit: false,
+      clickOn: false,		
+    });
+
+    renderComment();
+
+  });
+
+
 </script>
 
 </html>
