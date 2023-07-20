@@ -40,7 +40,7 @@
       name: 'Глеб Фокин',
       text: 'Это будет первый комментарий на этой странице',
       date: '12.02.22 12:18',
-      clickOn: false,
+      isClick: false,
       likes: 3,
       isEdit: false,
 
@@ -50,7 +50,7 @@
       name: 'Варвара Н.',
       text: 'Мне нравится как оформлена эта страница! ❤',
       date: '13.02.22 19:22',
-      clickOn: false,
+      isClick: false,
       likes: 75,
       isEdit: false,
     }
@@ -63,13 +63,13 @@
     for (const likesButton of likesButtons) {
       const index = likesButton.dataset.index;
       likesButton.addEventListener('click', () => {
-        if (!comments[index].clickOn) {
-          comments[index].clickOn = true;
+        if (!comments[index].isClick) {
+          comments[index].isClick = true;
           comments[index].active = '-active-like';
           comments[index].likes += 1;
 
         } else {
-          comments[index].clickOn = false;
+          comments[index].isClick = false;
           comments[index].active = '';
           comments[index].likes -= 1;
 
@@ -133,19 +133,19 @@
 
     comments.push({
       name: nameInputElement.value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;"),
+      date: currentDate,
+      text: commentInputElement.value
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;"),
-      date: currentDate,
-      text: commentInputElement.value
-      .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;"),
+        .replaceAll('"', "&quot;"), 
       likes: 0,
       isEdit: false,
-      clickOn: false,
+      isClick: false,
     });
 
     renderComment();
