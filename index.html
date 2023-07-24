@@ -92,6 +92,23 @@
     };
   };
 
+  const newReply = () => {
+    const commentElements = document.querySelectorAll('.text');
+
+    for (const commentElement of commentElements) {
+      commentElement.addEventListener('click', () => {
+        let index = commentElement.dataset.index;
+
+        const originalText = `$comments[index].name : $comments[index].text
+          .replaceAll('<div class = "quote">', '')
+          .replaceAll('/<div>', '')}`;
+        textInputElement.value = originalText;
+        isReply = true;
+        console.log(isReply);    
+    });
+   }
+  }
+
   const renderComment = () => {
     const commentHtml = comments.map((comments, index) => {
       return `<li class="comment">
