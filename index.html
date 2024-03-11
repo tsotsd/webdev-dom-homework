@@ -26,9 +26,10 @@
 <script>
   "use strict";
   // Код писать здесь
-  let date = new Date().toLocaleDateString();
-  let time = new Date().toLocaleTimeString().slice(0, -3);
-  let currentDate = (date + ' ' + time);
+  //let date = new Date().toLocaleDateString();
+  //let time = new Date().toLocaleTimeString().slice(0, -3);
+  //let currentDate = (date + ' ' + time);
+  const currentDate = new Date().toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0, -3);
 
   const buttonElement = document.getElementById("add-button");
   const listElement = document.getElementById("list");
