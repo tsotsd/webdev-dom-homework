@@ -34,24 +34,27 @@
 
   <script>
     "use strict";
-    // Код писать здесь
-    //let date = new Date().toLocaleDateString();
-    //let time = new Date().toLocaleTimeString().slice(0, -3);
-    //let currentDate = (date + ' ' + time);
-    const currentDate =
-      new Date().toLocaleDateString("default", {
+//    Код писать здесь
+    let date = new Date().toLocaleDateString("default", {
         day: "2-digit",
         month: "2-digit",
         year: "2-digit",
-      }) +
-      " " +
-      new Date().toLocaleTimeString().slice(0, -3);
+      });
+    let time = new Date().toLocaleTimeString().slice(0, -3);
+    let currentDate = (date + ' ' + time);
+    // const currentDate =
+    //   new Date().toLocaleDateString("default", {
+    //     day: "2-digit",
+    //     month: "2-digit",
+    //     year: "2-digit",
+    //   }) +
+    //   " " +
+    //   new Date().toLocaleTimeString().slice(0, -3);
 
     const buttonElement = document.getElementById("add-button");
     const listElement = document.getElementById("list");
     const nameInputElement = document.getElementById("name-input");
     const commentInputElement = document.getElementById("comment-textarea");
-    console.log(commentInputElement);
 
     const comments = [
       {
@@ -108,7 +111,6 @@
       const deleteButtonElements = document.querySelectorAll(".delete-button");
       for (const deleteButtonElement of deleteButtonElements) {
         deleteButtonElement.addEventListener("click", () => {
-          console.log("Удаляю элемент.");
           const index = deleteButtonElement.dataset.index;
           console.log(index);
           comments.splice(index, 1);
@@ -149,13 +151,15 @@
     buttonElement.addEventListener("click", () => {
       nameInputElement.classList.remove("error");
       commentInputElement.classList.remove("error");
-      if (nameInputElement.value === "") {
+   
+      if (nameInputElement.value === "" || nameInputElement.value.trim() == "") {
         nameInputElement.classList.add("error");
         return;
-      } else if (commentInputElement.value === "") {
+      } else if (commentInputElement.value === "" || commentInputElement.value.trim() == "") {
         commentInputElement.classList.add("error");
         return;
       }
+  
 
       comments.push({
         name: nameInputElement.value
@@ -173,7 +177,8 @@
         isEdit: false,
         isClick: false,
       });
-
+      nameInputElement.value = '';
+      commentInputElement.value = '';
       renderComment();
     });
   </script>
