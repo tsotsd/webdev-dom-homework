@@ -34,22 +34,14 @@
 
   <script>
     "use strict";
-//    Код писать здесь
-    let date = new Date().toLocaleDateString("default", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      });
-    let time = new Date().toLocaleTimeString().slice(0, -3);
-    let currentDate = (date + ' ' + time);
-    // const currentDate =
-    //   new Date().toLocaleDateString("default", {
+
+    // let date = new Date().toLocaleDateString("default", {
     //     day: "2-digit",
     //     month: "2-digit",
     //     year: "2-digit",
-    //   }) +
-    //   " " +
-    //   new Date().toLocaleTimeString().slice(0, -3);
+    //   });
+    // let time = new Date().toLocaleTimeString().slice(0, -3);
+    // let currentDate = (date + ' ' + time);
 
     const buttonElement = document.getElementById("add-button");
     const listElement = document.getElementById("list");
@@ -74,20 +66,20 @@
         isEdit: false,
       },
     ];
-
+    // Ответ на комментарий
     const replyComment = () => {
       const commentElements = document.querySelectorAll(".comment-text");
 
       for (const commentElement of commentElements) {
         commentElement.addEventListener("click", () => {
-        const index = commentElement.dataset.index;
-        let commentInputElement = document.querySelector(".add-form-text");
-        commentInputElement.value = `${comments[index].text} \n ${comments[index].name}`
-       
+          const index = commentElement.dataset.index;
+          let commentInputElement = document.querySelector(".add-form-text");
+          commentInputElement.value = `${comments[index].text} \n ${comments[index].name}`;
         });
       }
     };
 
+    // Лайк
     const eventeLikesButtons = () => {
       const likesButtons = document.querySelectorAll(".like-button");
       for (const likesButton of likesButtons) {
@@ -120,6 +112,7 @@
     };
 
     const renderComment = () => {
+
       const commentHtml = comments
         .map((comments, index) => {
           return `<li class="comment">
@@ -151,15 +144,28 @@
     buttonElement.addEventListener("click", () => {
       nameInputElement.classList.remove("error");
       commentInputElement.classList.remove("error");
-   
-      if (nameInputElement.value === "" || nameInputElement.value.trim() == "") {
+
+      if (
+        nameInputElement.value === "" ||
+        nameInputElement.value.trim() == ""
+      ) {
         nameInputElement.classList.add("error");
         return;
-      } else if (commentInputElement.value === "" || commentInputElement.value.trim() == "") {
+      } else if (
+        commentInputElement.value === "" ||
+        commentInputElement.value.trim() == ""
+      ) {
         commentInputElement.classList.add("error");
         return;
       }
-  
+      
+      let date = new Date().toLocaleDateString("default", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      });
+      let time = new Date().toLocaleTimeString().slice(0, -3);
+      let currentDate = date + " " + time;
 
       comments.push({
         name: nameInputElement.value
@@ -177,8 +183,8 @@
         isEdit: false,
         isClick: false,
       });
-      nameInputElement.value = '';
-      commentInputElement.value = '';
+      nameInputElement.value = "";
+      commentInputElement.value = "";
       renderComment();
     });
   </script>
