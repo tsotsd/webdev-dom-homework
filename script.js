@@ -37,7 +37,7 @@ fetchComments.then((response) => {
     const appComments = responseData.comments.map((comment) => {
       return {
         name: comment.author.name,
-        date: new Date(comment.date),
+        date: new Date(comment.date).toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0, -3),
         text: comment.text,
         likes: comment.likes,
         isLikes: false,
