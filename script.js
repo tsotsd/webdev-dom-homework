@@ -5,50 +5,39 @@ const listElement = document.getElementById("list");
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-textarea");
 
-let comments = [
-  //   {
-  //     name: "Глеб Фокин",
-  //     text: "Это будет первый комментарий на этой странице",
-  //     date: "12.02.22 12:18",
-  //     isClick: false,
-  //     likes: 3,
-  //     isEdit: false,
-  //   },
-  //   {
-  //     name: "Варвара Н.",
-  //     text: "Мне нравится как оформлена эта страница! ❤",
-  //     date: "13.02.22 19:22",
-  //     isClick: false,
-  //     likes: 75,
-  //     isEdit: false,
-  //   },
-];
-
 
 // Получаем данные
-const fetchComments = fetch(
-  "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
-  {
-    method: "GET",
-  }
-);
 
-fetchComments.then((response) => {
-  const jsonPromise = response.json();
-  jsonPromise.then((responseData) => {
-    const appComments = responseData.comments.map((comment) => {
-      return {
-        name: comment.author.name,
-        date: new Date(comment.date).toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0, -3),
-        text: comment.text,
-        likes: comment.likes,
-        isLikes: false,
-      };
+function getComments() {
+  const fetchComments = fetch(
+    "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
+    {
+      method: "GET",
+    }
+  );
+
+  fetchComments.then((response) => {
+    const jsonPromise = response.json();
+    jsonPromise.then((responseData) => {
+      const appComments = responseData.comments.map((comment) => {
+        return {
+          name: comment.author.name,
+          date: new Date(comment.date).toLocaleDateString('default', { day: '2-digit', month: '2-digit', year: '2-digit' }) + " " + new Date().toLocaleTimeString().slice(0, -3),
+          text: comment.text,
+          likes: comment.likes,
+          isLikes: false,
+        };
+      });
+      comments = appComments;
+      renderComment();
     });
-    comments = appComments;
-    renderComment();
   });
-});
+};
+
+getComments();
+let comments = [];
+
+
 
 // Ответ на комментарий
 const replyComment = () => {
@@ -79,22 +68,11 @@ const eventeLikesButtons = () => {
         comments[index].likes -= 1;
       }
       renderComment();
+
     });
   }
 };
 
-// Удаление (пока убрал)
-const initDeleteButtonsListeners = () => {
-  const deleteButtonElements = document.querySelectorAll(".delete-button");
-  for (const deleteButtonElement of deleteButtonElements) {
-    deleteButtonElement.addEventListener("click", () => {
-      const index = deleteButtonElement.dataset.index;
-      console.log(index);
-      comments.splice(index, 1);
-      renderComment();
-    });
-  }
-};
 
 const renderComment = () => {
   const commentHtml = comments
@@ -117,7 +95,6 @@ const renderComment = () => {
     })
     .join("");
   listElement.innerHTML = commentHtml;
-  initDeleteButtonsListeners();
   eventeLikesButtons();
   replyComment();
 };
@@ -139,61 +116,31 @@ buttonElement.addEventListener("click", () => {
     return;
   }
 
-  // let date = new Date().toLocaleDateString("default", {
-  //   day: "2-digit",
-  //   month: "2-digit",
-  //   year: "2-digit",
-  // });
-  // let time = new Date().toLocaleTimeString().slice(0, -3);
-  // let currentDate = date + " " + time;
 
   const fetchComments = fetch(
     "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
     {
       method: "POST",
-      body: JSON.stringify({ 
-        text: commentInputElement.value, 
-        name: nameInputElement.value,
-     }),
+      body: JSON.stringify({
+        text: commentInputElement.value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
+        name: nameInputElement.value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
+      }),
     }
   );
-  fetchComments.then((response) => {
-    const jsonPromise = response.json();
-    jsonPromise.then((responseData) => {
-      const appComments = responseData.comments.map((comment) => {
-        return {
-          name: comment.author.name,
-          date: new Date(comment.date).toLocaleDateString('default', {day: '2-digit', month: '2-digit', year: '2-digit'}) + " "+ new Date().toLocaleTimeString().slice(0, -3),
-          text: comment.text,
-          likes: comment.likes,
-          isLikes: false,
-        };
-      });
-      comments = appComments;
-      renderComment();
-    });
-  });
-
-
-
-
-
-  //   comments.push({
-  //     name: nameInputElement.value
-  //       .replaceAll("&", "&amp;")
-  //       .replaceAll("<", "&lt;")
-  //       .replaceAll(">", "&gt;")
-  //       .replaceAll('"', "&quot;"),
-  //     date: currentDate,
-  //     text: commentInputElement.value
-  //       .replaceAll("&", "&amp;")
-  //       .replaceAll("<", "&lt;")
-  //       .replaceAll(">", "&gt;")
-  //       .replaceAll('"', "&quot;"),
-  //     likes: 0,
-  //     isEdit: false,
-  //     isClick: false,
-  //   });
+      fetchComments.then((response) => {
+        console.log(response);
+        const jsonPromise = response.json();
+        getComments();
+        renderComment();
+})
 
   nameInputElement.value = "";
   commentInputElement.value = "";
