@@ -1,38 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Проект "Комменты"</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body>
-    <div class="container">
-      <ul id="list" class="comments">
-        <!-- Список рендерится из JS -->
-      </ul>
-      <div class="add-form">
-        <input
-          type="text"
-          id="name-input"
-          class="add-form-name"
-          placeholder="Введите ваше имя"
-        />
-        <textarea
-          type="textarea"
-          id="comment-textarea"
-          class="add-form-text"
-          placeholder="Введите ваш коментарий"
-          rows="4"
-        ></textarea>
-        <div class="add-form-row">
-          <button id="add-button" class="add-form-button">Написать</button>
-        </div>
+<head>
+  <title>Проект "Комменты"</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <ul id="list" class="comments">
+      <!-- Список рендерится из JS -->
+    </ul>
+    <div class="add-form">
+      <input type="text" id="name-input" class="add-form-name" placeholder="Введите ваше имя" />
+      <textarea type="textarea" id="comment-textarea" class="add-form-text" placeholder="Введите ваш коментарий"
+        rows="4"></textarea>
+      <div class="add-form-row">
+        <button id="add-button" class="add-form-button">Написать</button>
       </div>
     </div>
-  </body>
-  <script src="script.js"></script>
+  </div>
+</body>
+<script src="script.js"></script>
 
-  <!-- <button data-index="${index}" class="delete-button add-form-button"></button> -->
+<!-- return `<li class="comment">
+  <div class="comment-header">
+    <div>${comments.name}</div>
+    <div>${comments.date}</div>
+  </div>
+  <div class="comment-body">
+    <div data-index="${index}" class="comment-text">${comments.text}</div>
+  </div>
+  <div class="comment-footer">
+    <div class="likes">
+      <span class="likes-counter">${comments.likes}</span>
+      <button data-index="${index}" class="like-button ${comments.active}"></button>
+    </div>
+  </div>
+  <button data-index="${index}" class="delete-button add-form-button">Удалить</button>
+</li>`; -->
 
 </html>
