@@ -116,7 +116,6 @@ buttonElement.addEventListener("click", () => {
     return;
   }
 
-
   const fetchComments = fetch(
     "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
     {
