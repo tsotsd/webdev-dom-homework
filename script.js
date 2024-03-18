@@ -139,10 +139,8 @@ buttonElement.addEventListener("click", () => {
         console.log(response);
         const jsonPromise = response.json();
         getComments();
-        renderComment();
 })
 
   nameInputElement.value = "";
   commentInputElement.value = "";
-  renderComment();
 });
