@@ -6,19 +6,19 @@ const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-textarea");
 
 
-// Получаем данные
+// Получаем данные с сервера
 
 function getComments() {
-  const fetchComments = fetch(
+  return fetch(
     "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
     {
       method: "GET",
     }
-  );
-
-  fetchComments.then((response) => {
-    const jsonPromise = response.json();
-    jsonPromise.then((responseData) => {
+  )
+  .then((response) => {
+    return response.json();
+  })
+    .then((responseData) => {
       const appComments = responseData.comments.map((comment) => {
         return {
           name: comment.author.name,
@@ -31,9 +31,10 @@ function getComments() {
       comments = appComments;
       renderComment();
     });
-  });
-};
+  };
 
+
+//Вызов функции и массив
 getComments();
 let comments = [];
 
@@ -101,6 +102,15 @@ const renderComment = () => {
 
 renderComment();
 
+// устранение уязвимостей
+// function sanitazedHtml(htmlString)  {
+//   htmlString
+//   .replaceAll("&", "&amp;")
+//   .replaceAll("<", "&lt;")
+//   .replaceAll(">", "&gt;")
+//   .replaceAll('"', "&quot;")
+// };
+
 buttonElement.addEventListener("click", () => {
   nameInputElement.classList.remove("error");
   commentInputElement.classList.remove("error");
@@ -116,7 +126,10 @@ buttonElement.addEventListener("click", () => {
     return;
   }
 
-  const fetchComments = fetch(
+  buttonElement.disabled = true;
+  buttonElement.textContent = "Комментарий добавляется..."
+
+  fetch(
     "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
     {
       method: "POST",
@@ -132,13 +145,14 @@ buttonElement.addEventListener("click", () => {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;"),
       }),
-    }
-  );
-      fetchComments.then((response) => {
-        console.log(response);
-        const jsonPromise = response.json();
-        getComments();
+    })
+    .then(() => {
+      getComments();
 })
+  .then(() => {
+    buttonElement.disabled = false;
+    buttonElement.textContent = "Написать"
+  })
 
   nameInputElement.value = "";
   commentInputElement.value = "";

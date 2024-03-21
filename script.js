@@ -5,7 +5,11 @@ const listElement = document.getElementById("list");
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-textarea");
 
+const loadingCommentElement = document.getElementById("loading-comment");
+const addFormElement = document.querySelector(".hidden-add-form");
+console.log(addFormElement);
 
+loadingCommentElement.style.display = 'none';
 // Получаем данные с сервера
 
 function getComments() {
@@ -102,6 +106,8 @@ const renderComment = () => {
 
 renderComment();
 
+
+
 buttonElement.addEventListener("click", () => {
   nameInputElement.classList.remove("error");
   commentInputElement.classList.remove("error");
@@ -117,8 +123,10 @@ buttonElement.addEventListener("click", () => {
     return;
   }
 
-  buttonElement.disabled = true;
-  buttonElement.textContent = "Комментарий добавляется..."
+  // buttonElement.disabled = true;
+  // buttonElement.textContent = "Комментарий добавляется...";
+  loadingCommentElement.style.display = 'block';
+  addFormElement.style.display = 'none';
 
   fetch(
     "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
@@ -141,10 +149,13 @@ buttonElement.addEventListener("click", () => {
       getComments();
 })
   .then(() => {
-    buttonElement.disabled = false;
-    buttonElement.textContent = "Написать"
+    // buttonElement.disabled = false;
+    // buttonElement.textContent = "Написать"
+    loadingCommentElement.style.display = 'none';
+    addFormElement.style.display = null;
   })
 
   nameInputElement.value = "";
   commentInputElement.value = "";
 });
+
