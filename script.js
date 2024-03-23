@@ -137,15 +137,29 @@ buttonElement.addEventListener("click", () => {
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;"),
+      forceError: true,
     }),
   })
-    .then(() => {
-      getComments();
+    .then((response) => {
+      console.log(response);
+      if (response.status === 201) {
+        return getComments();
+      } else {
+        throw new Error("Сервер упал")
+        //return Promise.reject("Имя и комментарий должен содержать хотя бы 3 символа")
+      }
     })
     .then(() => {
       loadingCommentElement.style.display = "none";
       addFormElement.style.display = null;
+      nameInputElement.value = "";
+      commentInputElement.value = "";
+    })
+    .catch((error) => {
+      alert("Имя и комментарий должен содержать хотя бы 3 символа");
+      console.log(error);
+      loadingCommentElement.style.display = "none";
+      addFormElement.style.display = null;
     });
-  nameInputElement.value = "";
-  commentInputElement.value = "";
+
 });
