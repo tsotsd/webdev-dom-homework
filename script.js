@@ -5,39 +5,46 @@ const listElement = document.getElementById("list");
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-textarea");
 
+const loadingCommentTitle = document.querySelector(".loading-title");
+const loadingCommentElement = document.getElementById("loading-comment");
+const addFormElement = document.querySelector(".hidden-add-form");
 
-// Получаем данные
+loadingCommentElement.style.display = "none";
+// Получаем данные с сервера
 
 function getComments() {
-  const fetchComments = fetch(
-    "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
-    {
-      method: "GET",
-    }
-  );
-
-  fetchComments.then((response) => {
-    const jsonPromise = response.json();
-    jsonPromise.then((responseData) => {
+  return fetch("https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments", {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((responseData) => {
       const appComments = responseData.comments.map((comment) => {
         return {
           name: comment.author.name,
-          date: new Date(comment.date).toLocaleDateString('default', { day: '2-digit', month: '2-digit', year: '2-digit' }) + " " + new Date().toLocaleTimeString().slice(0, -3),
+          date:
+            new Date(comment.date).toLocaleDateString("default", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "2-digit",
+            }) +
+            " " +
+            new Date().toLocaleTimeString().slice(0, -3),
           text: comment.text,
           likes: comment.likes,
           isLikes: false,
         };
       });
       comments = appComments;
+      loadingCommentTitle.style.display = "none";
       renderComment();
     });
-  });
-};
+}
 
+//Вызов функции и массив
 getComments();
 let comments = [];
-
-
 
 // Ответ на комментарий
 const replyComment = () => {
@@ -68,11 +75,9 @@ const eventeLikesButtons = () => {
         comments[index].likes -= 1;
       }
       renderComment();
-
     });
   }
 };
-
 
 const renderComment = () => {
   const commentHtml = comments
@@ -116,31 +121,31 @@ buttonElement.addEventListener("click", () => {
     return;
   }
 
+  loadingCommentElement.style.display = "block";
+  addFormElement.style.display = "none";
 
-  const fetchComments = fetch(
-    "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        text: commentInputElement.value
+  fetch("https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments", {
+    method: "POST",
+    body: JSON.stringify({
+      text: commentInputElement.value
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;"),
-        name: nameInputElement.value
+      name: nameInputElement.value
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;"),
-      }),
-    }
-  );
-      fetchComments.then((response) => {
-        console.log(response);
-        const jsonPromise = response.json();
-        getComments();
-})
-
+    }),
+  })
+    .then(() => {
+      getComments();
+    })
+    .then(() => {
+      loadingCommentElement.style.display = "none";
+      addFormElement.style.display = null;
+    });
   nameInputElement.value = "";
   commentInputElement.value = "";
 });
