@@ -166,7 +166,7 @@ buttonElement.addEventListener("click", () => {
         })
         .catch((error) => {
             //alert("Имя и комментарий должны содержать хотя бы 3 символа");
-            alert(error);
+            alert(error.message);
             loadingCommentElement.style.display = "none";
             addFormElement.style.display = null;
         });
