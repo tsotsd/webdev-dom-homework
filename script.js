@@ -13,7 +13,7 @@ loadingCommentElement.style.display = "none";
 // Получаем данные с сервера
 
 function getComments() {
-    return fetch("https://wedev-api.sky.pro/api/v1/oleg-petrov/comments", {
+    return fetch("https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments", {
         method: "GET",
     })
         .then((response) => {
@@ -136,7 +136,7 @@ buttonElement.addEventListener("click", () => {
     loadingCommentElement.style.display = "block";
     addFormElement.style.display = "none";
 
-    fetch("https://wedev-api.sky.pro/api/v1/oleg-petrov/comments", {
+    fetch("https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments", {
         method: "POST",
         body: JSON.stringify({
             text: toCorrectVulnerability(commentInputElement.value),
