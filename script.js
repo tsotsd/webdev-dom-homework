@@ -17,7 +17,13 @@ function getComments() {
         method: "GET",
     })
         .then((response) => {
-            return response.json();
+              // console.log(response)
+            // return response.json();
+            if (response.status === 500) {
+              throw new Error("Нет подключения к интернету")
+          } else {
+              return response.json();
+          }
         })
         .then((responseData) => {
             const appComments = responseData.comments.map((comment) => {
@@ -41,7 +47,12 @@ function getComments() {
             renderComment();
         })
         .catch((error) => {
-          console.log(error);
+                // alert(error)
+                if (error.message === "Failed to fetch") {
+                  alert("Упал интернет");
+              } else {
+                  alert(error.message);
+              }
         });
 }
 
