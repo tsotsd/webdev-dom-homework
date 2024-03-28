@@ -11,9 +11,10 @@ const addFormElement = document.querySelector(".hidden-add-form");
 
 loadingCommentElement.style.display = "none";
 // Получаем данные с сервера
+const urlApi = "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments";
 
 function getComments() {
-    return fetch("https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments", {
+    return fetch(urlApi, {
         method: "GET",
     })
         .then((response) => {
@@ -147,7 +148,7 @@ buttonElement.addEventListener("click", () => {
     loadingCommentElement.style.display = "block";
     addFormElement.style.display = "none";
 
-    fetch("https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments", {
+    fetch(urlApi, {
         method: "POST",
         body: JSON.stringify({
             text: toCorrectVulnerability(commentInputElement.value),
