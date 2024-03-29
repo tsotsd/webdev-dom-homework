@@ -1,8 +1,9 @@
 import { getTodos, postTodo } from "./api.js";
+import { eventeLikesButtons } from "./eventeLikeButtons.js";
+import { renderComment } from "./renderComment.js";
 
 
 const buttonElement = document.getElementById("add-button");
-const listElement = document.getElementById("list");
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-textarea");
 
@@ -11,8 +12,6 @@ const loadingCommentElement = document.getElementById("loading-comment");
 const addFormElement = document.querySelector(".hidden-add-form");
 
 loadingCommentElement.style.display = "none";
-// Получаем данные с сервера
-// const urlApi = "https://wedev-api.sky.pro/api/v1/oleg-petrov/comments";
 
 function getComments() {
         getTodos().then((responseData) => {
@@ -34,7 +33,7 @@ function getComments() {
             });
             comments = appComments;
             loadingCommentTitle.style.display = "none";
-            renderComment();
+            renderComment({ comments });
         })
         .catch((error) => {
                 // alert(error)
@@ -50,51 +49,10 @@ function getComments() {
 getComments();
 let comments = [];
 
-// Лайк
-const eventeLikesButtons = () => {
-    const likesButtons = document.querySelectorAll(".like-button");
-    for (const likesButton of likesButtons) {
-        const index = likesButton.dataset.index;
-        likesButton.addEventListener("click", () => {
-            if (!comments[index].isClick) {
-                comments[index].isClick = true;
-                comments[index].active = "-active-like";
-                comments[index].likes += 1;
-            } else {
-                comments[index].isClick = false;
-                comments[index].active = "";
-                comments[index].likes -= 1;
-            }
-            renderComment();
-        });
-    }
-};
+eventeLikesButtons()
 
-const renderComment = () => {
-    const commentHtml = comments
-        .map((comments, index) => {
-            return `<li class="comment">
-    <div class="comment-header">
-      <div>${comments.name}</div>
-      <div>${comments.date}</div>
-    </div>
-    <div class="comment-body">
-      <div data-index="${index}" class="comment-text">${comments.text}</div>
-    </div>
-    <div class="comment-footer">
-      <div class="likes">
-        <span class="likes-counter">${comments.likes}</span>
-        <button data-index="${index}" class="like-button ${comments.active}"></button>
-      </div>
-    </div>
-  </li>`;
-        })
-        .join("");
-    listElement.innerHTML = commentHtml;
-    eventeLikesButtons();
-};
 
-renderComment();
+renderComment({ comments });
 
 buttonElement.addEventListener("click", () => {
     nameInputElement.classList.remove("error");

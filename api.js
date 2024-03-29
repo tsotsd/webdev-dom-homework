@@ -34,7 +34,7 @@ export function postTodo({ commentApi, nameApi}) {
               throw new Error("Сервер упал") 
             } else {
                 console.log("Успешно")
-                return; 
+               // return getComments();
             }
         })
 }
