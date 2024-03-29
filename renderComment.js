@@ -1,4 +1,3 @@
-import { eventeLikesButtons } from "./eventeLikeButtons";
 
 const listElement = document.getElementById("list");
 
@@ -23,5 +22,5 @@ export const renderComment = ({ comments }) => {
         })
         .join("");
     listElement.innerHTML = commentHtml;
-    eventeLikesButtons();
+    //eventeLikesButtons();
 };
