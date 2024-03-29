@@ -1,4 +1,5 @@
-"use strict";
+import { getTodos, postTodo } from "./api.js";
+
 
 const buttonElement = document.getElementById("add-button");
 const listElement = document.getElementById("list");
@@ -11,22 +12,10 @@ const addFormElement = document.querySelector(".hidden-add-form");
 
 loadingCommentElement.style.display = "none";
 // Получаем данные с сервера
-const urlApi = "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments";
+// const urlApi = "https://wedev-api.sky.pro/api/v1/oleg-petrov/comments";
 
 function getComments() {
-    return fetch(urlApi, {
-        method: "GET",
-    })
-        .then((response) => {
-              // console.log(response)
-            // return response.json();
-            if (response.status === 500) {
-              throw new Error("Нет подключения к интернету")
-          } else {
-              return response.json();
-          }
-        })
-        .then((responseData) => {
+        getTodos().then((responseData) => {
             const appComments = responseData.comments.map((comment) => {
                 return {
                     name: comment.author.name,
@@ -60,19 +49,6 @@ function getComments() {
 //Вызов функции и массив
 getComments();
 let comments = [];
-
-// Ответ на комментарий
-const replyComment = () => {
-    const commentElements = document.querySelectorAll(".comment-text");
-
-    for (const commentElement of commentElements) {
-        commentElement.addEventListener("click", () => {
-            const index = commentElement.dataset.index;
-            let commentInputElement = document.querySelector(".add-form-text");
-            commentInputElement.value = `${comments[index].text} \n ${comments[index].name}`;
-        });
-    }
-};
 
 // Лайк
 const eventeLikesButtons = () => {
@@ -116,19 +92,9 @@ const renderComment = () => {
         .join("");
     listElement.innerHTML = commentHtml;
     eventeLikesButtons();
-    replyComment();
 };
 
 renderComment();
-
-const toCorrectVulnerability = (string) => {
-    return string
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-};
-
 
 buttonElement.addEventListener("click", () => {
     nameInputElement.classList.remove("error");
@@ -148,33 +114,16 @@ buttonElement.addEventListener("click", () => {
     loadingCommentElement.style.display = "block";
     addFormElement.style.display = "none";
 
-    fetch(urlApi, {
-        method: "POST",
-        body: JSON.stringify({
-            text: toCorrectVulnerability(commentInputElement.value),
-            name: toCorrectVulnerability(nameInputElement.value),
-         //   text: commentInputElement.value,
-         //    name: nameInputElement.value,
-            forceError: true,
-        }),
-    })
-        .then((response) => {
-            console.log(response);
-            //return  Promise.reject("Имя и комментарий должны содержать хотя бы 3 символа")
-            if (response.status === 400) {
-              throw new Error("Имя и комментарий должны содержать хотя бы 3 символа")
-            } else if (response.status === 500) { 
-              throw new Error("Сервер упал") 
-            } else {
-                console.log("Успешно")
-                return getComments();
-            }
-        })
-        .then(() => {
+          postTodo({
+            commentApi: commentInputElement.value,
+            nameApi: nameInputElement.value,
+            
+          }).then(() => {
             loadingCommentElement.style.display = "none";
             addFormElement.style.display = null;
             nameInputElement.value = "";
             commentInputElement.value = "";
+            return getComments();
         })
         .catch((error) => {
             if (error.message === "Failed to fetch") {
