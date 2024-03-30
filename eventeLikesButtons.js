@@ -1,5 +1,7 @@
+import {renderComment} from "./renderComment.js";
+
 // Лайк
-export const eventeLikesButtons = () => {
+export const eventeLikesButtons = ({ comments }) => {
     const likesButtons = document.querySelectorAll(".like-button");
     for (const likesButton of likesButtons) {
         const index = likesButton.dataset.index;

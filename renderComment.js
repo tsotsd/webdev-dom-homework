@@ -1,7 +1,10 @@
+import {eventeLikesButtons} from "./eventeLikesButtons.js";
+import {comments} from "./main.js";
+import {initListnerAddComment} from "./initListnerAddComment.js";
 
 const listElement = document.getElementById("list");
 
-export const renderComment = ({ comments }) => {
+export const renderComment = () => {
     const commentHtml = comments
         .map((comments, index) => {
             return `<li class="comment">
@@ -22,5 +25,6 @@ export const renderComment = ({ comments }) => {
         })
         .join("");
     listElement.innerHTML = commentHtml;
-    //eventeLikesButtons();
+    eventeLikesButtons({comments});
+    initListnerAddComment();
 };
