@@ -1,5 +1,5 @@
 import {eventeLikesButtons} from "./eventeLikesButtons.js";
-import {comments} from "./main.js";
+import {comments} from "./getComments.js";
 import {initListnerAddComment} from "./initListnerAddComment.js";
 
 const listElement = document.getElementById("list");

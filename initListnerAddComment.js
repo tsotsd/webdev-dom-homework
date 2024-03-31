@@ -1,6 +1,6 @@
 import {postTodo} from "./api.js";
 import {toCorrectVulnerability} from "./correctVulnerability.js";
-import {getComments} from "./main.js";
+import {getComments} from "./getComments.js";
 
 const loadingCommentElement = document.getElementById("loading-comment");
 
