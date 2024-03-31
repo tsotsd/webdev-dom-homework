@@ -1,5 +1,3 @@
-import { toCorrectVulnerability } from "./correctVulnerability.js";
-
 const urlApi = "https://wedev-api.sky.pro/api/v1/oidop-cyndymeev/comments";
 
 export function getTodos() {
