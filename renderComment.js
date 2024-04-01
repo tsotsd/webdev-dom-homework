@@ -2,6 +2,7 @@ import {eventeLikesButtons} from "./eventeLikesButtons.js";
 import {comments} from "./getComments.js";
 import {initListnerAddComment} from "./initListnerAddComment.js";
 
+
 const listElement = document.getElementById("list");
 
 export const renderComment = () => {
@@ -27,4 +28,18 @@ export const renderComment = () => {
     listElement.innerHTML = commentHtml;
     eventeLikesButtons({comments});
     initListnerAddComment();
+    replyComment();
+};
+
+// Ответ на комментарий
+export const replyComment = () => {
+  const commentElements = document.querySelectorAll(".comment-text");
+
+  for (const commentElement of commentElements) {
+      commentElement.addEventListener("click", () => {
+          const index = commentElement.dataset.index;
+          let commentInputElement = document.querySelector(".add-form-text");
+          commentInputElement.value = `${comments[index].text} \n ${comments[index].name}`;
+      });
+  }
 };
