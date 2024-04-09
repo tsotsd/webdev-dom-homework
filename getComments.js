@@ -11,6 +11,8 @@ export let setComments = newComments => {
     comments = newComments;
 }
 
+
+
 export function getComments() {
 const loadingCommentTitle = document.querySelector(".loading-title");
 

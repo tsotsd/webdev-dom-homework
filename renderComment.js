@@ -3,6 +3,7 @@ import {comments} from "./getComments.js";
 import {initListnerAddComment} from "./initListnerAddComment.js";
 
 
+
 const listElement = document.getElementById("list");
 
 export const renderComment = () => {
@@ -43,3 +44,4 @@ export const replyComment = () => {
       });
   }
 };
+
