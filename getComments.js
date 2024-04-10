@@ -1,18 +1,14 @@
 import { getTodos } from "./api.js";
 import { renderComment } from "./renderComment.js";
 
-const loadingCommentElement = document.getElementById("loading-comment");
-loadingCommentElement.style.display = "none";
-
 export let comments = [];
 export let setComments = newComments => {
     comments = newComments;
 }
 
-
-
 export function getComments() {
-const loadingCommentTitle = document.querySelector(".loading-title");
+// const loadingCommentElement = document.getElementById("loading-comment");
+// loadingCommentElement.style.display = "none";
 
     getTodos().then((responseData) => {
         const appComments = responseData.comments.map((comment) => {
@@ -32,7 +28,8 @@ const loadingCommentTitle = document.querySelector(".loading-title");
             };
         });
         setComments(appComments)
-        loadingCommentTitle.style.display = "none";
+        
+        
         renderComment();
     })
         .catch((error) => {

@@ -1,12 +1,14 @@
+import { user } from "./api.js";
 import {eventeLikesButtons} from "./eventeLikesButtons.js";
 import {comments} from "./getComments.js";
 import {initListnerAddComment} from "./initListnerAddComment.js";
+import { renderLogin } from "./loginPage.js";
 
 
 
 const listElement = document.getElementById("list");
 
-export const renderComment = () => {
+export const renderComment = (textValue = "") => {
   const appElement = document.getElementById("app");
 
     const commentHtml = comments
@@ -36,24 +38,35 @@ export const renderComment = () => {
      </ul>
      <br>
      
-     <div class="login-alert" id="login-alert">Чтобы добавить комментарий, <a id="authorization" href="login.html">авторизуйтесь</a></div>
- 
-     <div id="loading-comment" class="hidden">Комментарий добавляется...</div>
- 
-     <div id="add-form-comment" class="add-form hidden-add-form">
-       <input type="text" id="name-input" class="add-form-name" placeholder="Введите ваше имя" />
+     ${user ? `<div id="loading-comment" class="hidden">Комментарий добавляется...</div>
+      <div id="add-form-comment" class="add-form hidden-add-form">
+       <input type="text" id="name-input" value="${user.name}"  class="add-form-name" placeholder="Введите ваше имя" />
        <textarea type="textarea" id="comment-textarea" class="add-form-text" placeholder="Введите ваш коментарий"
-         rows="4"></textarea>
+         rows="4">${textValue}</textarea>
        <div class="add-form-row">
          <button id="add-button" class="add-form-button">Написать</button>
        </div>
-     </div>
+     </div>` : `<div class="login-alert" id="login-alert">Чтобы добавить комментарий, <button id="authorization">авторизуйтесь</button></div>`}
+     
    </div>`
-
+        
    appElement.innerHTML = appHtml;
-    eventeLikesButtons({comments});
-    initListnerAddComment();
-    replyComment();
+   const loadingCommentTitle = document.querySelector(".loading-title");
+    loadingCommentTitle.style.display = "none";    
+
+   if (user) {     
+   eventeLikesButtons({comments});
+   initListnerAddComment();
+   replyComment();
+  } else {
+    const buttonElement = document.getElementById("authorization");
+    
+    buttonElement.addEventListener("click", () => {
+      renderLogin();
+
+    })
+    
+  }
 };
 
 // Ответ на комментарий

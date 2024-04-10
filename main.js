@@ -6,8 +6,7 @@ import { renderLogin } from "./loginPage.js";
 
 getComments();
 
-
-renderLogin();
+//renderLogin();
 
 
 

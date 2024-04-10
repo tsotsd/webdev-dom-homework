@@ -1,4 +1,5 @@
 import { login, setToken, token } from "./api.js";
+import { getComments } from "./getComments.js";
 
 export const renderLogin = () => {
     const appElement = document.getElementById("app");
@@ -16,27 +17,28 @@ export const renderLogin = () => {
 </div>
     `
     appElement.innerHTML = loginHtml;
+
+const buttonElement = document.getElementById("sign-in");
+
+const loginInputElement = document.getElementById("login-input");
+const passwordInputElement = document.getElementById("password-input");
+
+console.log(buttonElement);
+console.log(loginInputElement);
+
+buttonElement.addEventListener("click", () => {
+  login({
+    login: loginInputElement.value,
+    password: passwordInputElement.value,
+  }).then((responseData) => {
+    getComments();
+});
+});
+
 }
 
 
 
-// const buttonElement = document.getElementById("sign-in");
 
-// const loginInputElement = document.getElementById("login-input");
-// const passwordInputElement = document.getElementById("password-input");
-
-// console.log(buttonElement);
-// console.log(loginInputElement);
-
-// buttonElement.addEventListener("click", () => {
-//   login({
-//     login: loginInputElement.value,
-//     password: passwordInputElement.value,
-//   }).then((responseData) => {
-//     console.log(token);
-//     setToken(responseData.user.token)
-//     console.log(token);
-//   });
-// });
 
 

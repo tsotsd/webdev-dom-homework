@@ -2,11 +2,11 @@ import {postTodo} from "./api.js";
 import {toCorrectVulnerability} from "./correctVulnerability.js";
 import {getComments} from "./getComments.js";
 
-const loadingCommentElement = document.getElementById("loading-comment");
 
 
 
 export function initListnerAddComment() {
+    const loadingCommentElement = document.getElementById("loading-comment");
     const buttonElement = document.getElementById("add-button");
     const nameInputElement = document.getElementById("name-input");
     const commentInputElement = document.getElementById("comment-textarea");
