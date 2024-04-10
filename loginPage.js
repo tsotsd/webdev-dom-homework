@@ -1,7 +1,7 @@
 import { login, setToken, token } from "./api.js";
 
 export const renderLogin = () => {
-    const appElement = document.getElementById("app")
+    const appElement = document.getElementById("app");
     const loginHtml = `
     <div class="add-form">
     <h2>Форма входа</h2>
@@ -14,29 +14,29 @@ export const renderLogin = () => {
         </div>
     </div>  
 </div>
-<br> <a class="link-login" href="index.html">Перейти на список комментарии</a>
     `
     appElement.innerHTML = loginHtml;
 }
 
 
 
-const buttonElement = document.getElementById("sign-in");
-const loginInputElement = document.getElementById("login-input");
-const passwordInputElement = document.getElementById("password-input");
+// const buttonElement = document.getElementById("sign-in");
 
-console.log(buttonElement);
-console.log(loginInputElement);
+// const loginInputElement = document.getElementById("login-input");
+// const passwordInputElement = document.getElementById("password-input");
 
-buttonElement.addEventListener("click", () => {
-  login({
-    login: loginInputElement.value,
-    password: passwordInputElement.value,
-  }).then((responseData) => {
-    console.log(token);
-    setToken(responseData.user.token)
-    console.log(token);
-  });
-});
+// console.log(buttonElement);
+// console.log(loginInputElement);
+
+// buttonElement.addEventListener("click", () => {
+//   login({
+//     login: loginInputElement.value,
+//     password: passwordInputElement.value,
+//   }).then((responseData) => {
+//     console.log(token);
+//     setToken(responseData.user.token)
+//     console.log(token);
+//   });
+// });
 
 

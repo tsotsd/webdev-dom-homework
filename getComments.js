@@ -2,8 +2,6 @@ import { getTodos } from "./api.js";
 import { renderComment } from "./renderComment.js";
 
 const loadingCommentElement = document.getElementById("loading-comment");
-
-
 loadingCommentElement.style.display = "none";
 
 export let comments = [];
@@ -45,4 +43,6 @@ const loadingCommentTitle = document.querySelector(".loading-title");
                 alert(error.message);
             }
         });
-}
+    
+    }
+

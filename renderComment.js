@@ -7,6 +7,8 @@ import {initListnerAddComment} from "./initListnerAddComment.js";
 const listElement = document.getElementById("list");
 
 export const renderComment = () => {
+  const appElement = document.getElementById("app");
+
     const commentHtml = comments
         .map((comments, index) => {
             return `<li class="comment">
@@ -26,7 +28,29 @@ export const renderComment = () => {
   </li>`;
         })
         .join("");
-    listElement.innerHTML = commentHtml;
+
+    const appHtml = `
+    <div class="container">
+    <div class="loading-title">Пожалуйста подождите, загружаю комментарии...</div>
+     <ul id="list" class="comments">${commentHtml}
+     </ul>
+     <br>
+     
+     <div class="login-alert" id="login-alert">Чтобы добавить комментарий, <a id="authorization" href="login.html">авторизуйтесь</a></div>
+ 
+     <div id="loading-comment" class="hidden">Комментарий добавляется...</div>
+ 
+     <div id="add-form-comment" class="add-form hidden-add-form">
+       <input type="text" id="name-input" class="add-form-name" placeholder="Введите ваше имя" />
+       <textarea type="textarea" id="comment-textarea" class="add-form-text" placeholder="Введите ваш коментарий"
+         rows="4"></textarea>
+       <div class="add-form-row">
+         <button id="add-button" class="add-form-button">Написать</button>
+       </div>
+     </div>
+   </div>`
+
+   appElement.innerHTML = appHtml;
     eventeLikesButtons({comments});
     initListnerAddComment();
     replyComment();
