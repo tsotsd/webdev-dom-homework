@@ -1,5 +1,5 @@
 import { user } from "./api.js";
-import {eventeLikesButtons} from "./eventeLikesButtons.js";
+import {eventeLikesButtons} from "./script.js";
 import {comments} from "./getComments.js";
 import {initListnerAddComment} from "./initListnerAddComment.js";
 import { renderLogin } from "./loginPage.js";
