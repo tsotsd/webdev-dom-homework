@@ -7,9 +7,6 @@ export let setComments = newComments => {
 }
 
 export function getComments() {
-// const loadingCommentElement = document.getElementById("loading-comment");
-// loadingCommentElement.style.display = "none";
-
     getTodos().then((responseData) => {
         const appComments = responseData.comments.map((comment) => {
             return {
@@ -33,7 +30,6 @@ export function getComments() {
         renderComment();
     })
         .catch((error) => {
-            // alert(error)
             if (error.message === "Failed to fetch") {
                 alert("Упал интернет");
             } else {

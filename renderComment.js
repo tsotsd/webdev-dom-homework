@@ -40,7 +40,7 @@ export const renderComment = (textValue = "") => {
      
      ${user ? `<div id="loading-comment" class="hidden">Комментарий добавляется...</div>
       <div id="add-form-comment" class="add-form hidden-add-form">
-       <input type="text" id="name-input" value="${user.name}"  class="add-form-name" placeholder="Введите ваше имя" />
+       <input type="text" id="name-input" value="${user.name}" class="add-form-name" placeholder="Введите ваше имя" />
        <textarea type="textarea" id="comment-textarea" class="add-form-text" placeholder="Введите ваш коментарий"
          rows="4">${textValue}</textarea>
        <div class="add-form-row">

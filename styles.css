@@ -1,11 +1,12 @@
 body {
     margin: 0;
+    background-color: black;
   }
 
 .hidden {
   display: none;
 }
-  .container {
+.container {
     font-family: Helvetica;
     color: #ffffff;
     display: flex;
@@ -143,7 +144,9 @@ body {
   .error {
     background-color: red;
   }
-
+  .h2-login-form {
+    color: #ffffff;
+  }
   .login-name, .password-name {
     margin-top: 10px;
     border: 3px solid #000;
