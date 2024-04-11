@@ -1,5 +1,5 @@
 import {postTodo} from "./api.js";
-import {toCorrectVulnerability} from "./correctVulnerability.js";
+import {toCorrectVulnerability} from "./script.js";
 import {getComments} from "./getComments.js";
 
 
