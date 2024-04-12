@@ -4,8 +4,6 @@ import {comments} from "./getComments.js";
 import {initListnerAddComment} from "./initListnerAddComment.js";
 import { renderLogin } from "./loginPage.js";
 
-
-
 const listElement = document.getElementById("list");
 
 export const renderComment = (textValue = "") => {
