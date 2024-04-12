@@ -1,19 +1,12 @@
 import { getTodos } from "./api.js";
 import { renderComment } from "./renderComment.js";
 
-const loadingCommentElement = document.getElementById("loading-comment");
-
-
-loadingCommentElement.style.display = "none";
-
 export let comments = [];
 export let setComments = newComments => {
     comments = newComments;
 }
 
 export function getComments() {
-const loadingCommentTitle = document.querySelector(".loading-title");
-
     getTodos().then((responseData) => {
         const appComments = responseData.comments.map((comment) => {
             return {
@@ -32,15 +25,17 @@ const loadingCommentTitle = document.querySelector(".loading-title");
             };
         });
         setComments(appComments)
-        loadingCommentTitle.style.display = "none";
+        
+        
         renderComment();
     })
         .catch((error) => {
-            // alert(error)
             if (error.message === "Failed to fetch") {
                 alert("Упал интернет");
             } else {
                 alert(error.message);
             }
         });
-}
+    
+    }
+

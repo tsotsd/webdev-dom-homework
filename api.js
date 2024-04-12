@@ -1,7 +1,15 @@
 const urlApi = "https://wedev-api.sky.pro/api/v2/oleg-petrov/comments";
 const userUrl = "https://wedev-api.sky.pro/api/user/login";
 
+
 export let token;
+export let user = null;
+
+
+export const setUser = (newUser) => {
+    user = newUser;
+  };
+  
 
 export const setToken = (newToken) => {
   token = newToken;
@@ -58,5 +66,9 @@ export function login({ login, password }) {
     }),
   }).then((response) => {
     return response.json();
-  });
+  }).then((data) => {
+    setUser(data.user);
+    setToken(data.user.token);
+    console.log(data, user);
+  })
 }
