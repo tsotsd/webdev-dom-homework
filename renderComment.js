@@ -54,10 +54,12 @@ export const renderComment = (textValue = "") => {
    const loadingCommentTitle = document.querySelector(".loading-title");
     loadingCommentTitle.style.display = "none";    
 
-   if (user) {     
+   if (user) {   
+   const nameInput = document.getElementById("name-input");
    eventeLikesButtons({comments});
    initListnerAddComment();
    replyComment();
+   nameInput.disabled = true;
   } else {
     const buttonElement = document.getElementById("authorization");
     

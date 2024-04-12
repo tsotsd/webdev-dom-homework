@@ -1,4 +1,4 @@
-import { login, setToken, token } from "./api.js";
+import { login } from "./api.js";
 import { getComments } from "./getComments.js";
 
 export const renderLogin = () => {
