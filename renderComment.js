@@ -3,8 +3,8 @@ import {eventeLikesButtons} from "./script.js";
 import {comments} from "./getComments.js";
 import {initListnerAddComment} from "./initListnerAddComment.js";
 import { renderLogin } from "./loginPage.js";
-import { format } from "date-fns";
-
+//import { format } from "date-fns";
+// <div>${format(comments.date, "yyyy-MM-dd hh.mm.ss")}</div>
 export const renderComment = (textValue = "") => {
   const appElement = document.getElementById("app");
 
@@ -13,8 +13,9 @@ export const renderComment = (textValue = "") => {
             return `<li class="comment">
     <div class="comment-header">
       <div>${comments.name}</div>
-      <div>${format(comments.date, "yyyy-MM-dd hh.mm.ss")}</div>
-    </div>
+      <div>${comments.date}</div>
+  
+      </div>
     <div class="comment-body">
       <div data-index="${index}" class="comment-text">${comments.text}</div>
     </div>
