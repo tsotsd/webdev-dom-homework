@@ -1,6 +1,7 @@
 import { getTodos } from "./api.js";
 import { renderComment } from "./renderComment.js";
 
+
 export let comments = [];
 export let setComments = newComments => {
     comments = newComments;
